@@ -4,6 +4,11 @@ import MainLayout from "./layouts/Main";
 function App() {
   const theme = createTheme({
     palette: { mode: "dark" },
+    typography: {
+      allVariants: {
+        fontFamily: "Poppins",
+      },
+    },
   });
   return (
     <ThemeProvider theme={theme}>
