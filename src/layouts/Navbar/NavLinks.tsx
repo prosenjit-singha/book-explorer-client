@@ -14,10 +14,10 @@ function NavLinks() {
         },
       }}
     >
-      <Link>Home</Link>
-      <Link>All Books</Link>
-      <Link>Login</Link>
-      <Link>Register</Link>
+      <Link href="/">Home</Link>
+      <Link href="/all-books">All Books</Link>
+      <Link href="/login">Login</Link>
+      <Link href="/register">Register</Link>
     </Stack>
   );
 }
