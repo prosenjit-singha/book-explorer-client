@@ -3,7 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import User from "../../../types/user.type";
 import api from "../../../helpers/api";
 import ApiResponse from "../../../types/apiResponse";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 interface IUserState {
   user: User | null;
@@ -17,7 +17,7 @@ interface ICredential {
   password: string;
 }
 
-interface ILoginPayload {
+interface IRegisterPayload {
   fullName: string;
   email: string;
   phoneNumber: string;
@@ -33,7 +33,7 @@ const initialState: IUserState = {
 
 export const registerUser = createAsyncThunk(
   "user/registerUser",
-  async (payload: ILoginPayload) => {
+  async (payload: IRegisterPayload) => {
     const res = await api.post<
       ApiResponse<{ accessToken: string; user: User }>
     >("/auth/register", payload);
@@ -46,14 +46,19 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   "user/loginUser",
-  async (credential: ICredential) => {
-    const res = await api.post<
-      ApiResponse<{ accessToken: string; user: User }>
-    >("/auth/login", credential);
+  async (credential: ICredential, { rejectWithValue }) => {
+    try {
+      const res = await api.post<
+        ApiResponse<{ accessToken: string; user: User }>
+      >("/auth/login", credential);
 
-    localStorage.setItem("accessToken", res.data.data!.accessToken);
+      localStorage.setItem("accessToken", res.data.data!.accessToken);
 
-    return res.data.data!.user;
+      console.log("What");
+      return res.data.data!.user;
+    } catch (error) {
+      return rejectWithValue((error as AxiosError).response?.data);
+    }
   }
 );
 

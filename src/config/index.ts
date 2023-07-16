@@ -1,5 +1,5 @@
 const env = import.meta.env;
 
 export default {
-  serverBaseURL: env.SERVER_BASE_URL as string,
+  serverBaseURL: import.meta.env.SERVER_BASE_URL as string,
 };

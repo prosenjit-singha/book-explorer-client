@@ -24,11 +24,11 @@ function App() {
     },
   });
   return (
-    <StyledEngineProvider injectFirst>
+    <StyledEngineProvider>
       <ThemeProvider theme={theme}>
         <>
           <GlobalStyles styles={getGlobalStyles(theme)} />
-          <CssBaseline />
+          <CssBaseline enableColorScheme />
           <MainLayout />
         </>
       </ThemeProvider>
