@@ -5,9 +5,11 @@ const productApi = reduxApi.injectEndpoints({
   endpoints: (builder) => ({
     getBooks: builder.query({
       query: () => "/books",
+      providesTags: ["books"],
     }),
     getSingleBook: builder.query({
       query: (id: string) => `/books/${id}`,
+      providesTags: ["reviews"],
     }),
     addBook: builder.mutation({
       query: (data: Partial<Book>) => ({
@@ -15,6 +17,7 @@ const productApi = reduxApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["books"],
     }),
   }),
 });

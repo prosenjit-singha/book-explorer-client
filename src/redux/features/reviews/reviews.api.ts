@@ -4,14 +4,14 @@ import reduxApi from "../../api";
 const reviewsApi = reduxApi.injectEndpoints({
   endpoints: (builder) => ({
     getBookReviews: builder.query({
-      query: () => "/books",
+      query: (bookId: string) => `/books/reviews/${bookId}`,
       providesTags: ["reviews"],
     }),
     postBookReview: builder.mutation({
-      query: (data: Partial<Book>) => ({
-        url: `/books`,
+      query: (context: { bookId: string; data: Partial<Book> }) => ({
+        url: `/books/reviews/${context.bookId}`,
         method: "POST",
-        body: data,
+        body: context.data,
       }),
       invalidatesTags: ["reviews"],
     }),
