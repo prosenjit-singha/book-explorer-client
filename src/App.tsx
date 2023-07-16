@@ -7,6 +7,9 @@ import {
 } from "@mui/material";
 import MainLayout from "./layouts/MainLayout";
 import getGlobalStyles from "./utils/getGlobalStyles";
+import React from "react";
+import { useAppDispatch } from "./redux/hooks";
+import { refreshToken } from "./redux/features/user/user.slice";
 
 function App() {
   const theme = createTheme({
@@ -23,6 +26,13 @@ function App() {
       },
     },
   });
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    const isUserLoggedIn = async () => await dispatch(refreshToken());
+    isUserLoggedIn().catch((err) => console.log(err));
+  }, [dispatch]);
+
   return (
     <StyledEngineProvider>
       <ThemeProvider theme={theme}>

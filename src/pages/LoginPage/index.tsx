@@ -11,6 +11,7 @@ import { loginUser } from "../../redux/features/user/user.slice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import ArrowIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { loginSchema } from "./form.validation";
+import { Navigate } from "react-router-dom";
 
 type Credential = {
   email: string;
@@ -23,7 +24,7 @@ const initialValues: Credential = {
 };
 
 const LoginPage = () => {
-  const { isLoading } = useAppSelector((state) => state.user);
+  const { isLoading, user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   const onSubmit = async (
@@ -39,6 +40,7 @@ const LoginPage = () => {
   });
 
   // console.log(data);
+  if (user) return <Navigate to={"/"} replace />;
 
   return (
     <div className="flex justify-center h-full my-auto">

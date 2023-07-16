@@ -1,10 +1,8 @@
-import { Link } from "@mui/material";
+import { Link } from "react-router-dom";
+
 function Logo() {
   return (
-    <Link
-      href="/"
-      className="no-underline text-2xl font-semibold text-slate-50"
-    >
+    <Link to="/" className="text-2xl font-semibold no-underline text-slate-50">
       Book Explorer
     </Link>
   );

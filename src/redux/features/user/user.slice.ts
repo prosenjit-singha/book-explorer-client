@@ -50,7 +50,8 @@ export const loginUser = createAsyncThunk(
     try {
       const res = await api.post<
         ApiResponse<{ accessToken: string; user: User }>
-      >("/auth/login", credential);
+      >("/auth/login", credential, { withCredentials: true });
+      console.log(res);
       localStorage.setItem("accessToken", res.data.data!.accessToken);
       return res.data.data!.user;
     } catch (error) {
@@ -65,8 +66,9 @@ export const refreshToken = createAsyncThunk(
     try {
       const res = await api.get<
         ApiResponse<{ accessToken: string; user: User }>
-      >("/auth/refresh-token");
+      >("/auth/refresh-token", { withCredentials: true });
       localStorage.setItem("accessToken", res.data.data!.accessToken);
+
       return res.data.data!.user;
     } catch (err) {
       return rejectWithValue((err as AxiosError).response!.data);
