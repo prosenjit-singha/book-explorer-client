@@ -1,6 +1,13 @@
-import { Typography } from "@mui/material";
+import { Typography, Link } from "@mui/material";
 function Logo() {
-  return <Typography fontSize={20}>Book Explorer</Typography>;
+  return (
+    <Link
+      href="/"
+      className="no-underline text-2xl font-semibold text-slate-50"
+    >
+      Book Explorer
+    </Link>
+  );
 }
 
 export default Logo;
