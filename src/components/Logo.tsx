@@ -1,4 +1,4 @@
-import { Typography, Link } from "@mui/material";
+import { Link } from "@mui/material";
 function Logo() {
   return (
     <Link
