@@ -1,5 +1,5 @@
-const env = import.meta.env;
+// const env = import.meta.env;
 
 export default {
-  serverBaseURL: import.meta.env.SERVER_BASE_URL as string,
+  serverBaseURL: "http://localhost:5000/api/v1",
 };

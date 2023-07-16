@@ -6,12 +6,11 @@ import {
   Button,
   CircularProgress,
 } from "@mui/material";
-import { useFormik, FormikHelpers } from "formik";
+import { useFormik } from "formik";
 import { loginUser } from "../../redux/features/user/user.slice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import ArrowIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { loginSchema } from "./form.validation";
-import config from "../../config";
 
 type Credential = {
   email: string;
@@ -24,15 +23,13 @@ const initialValues: Credential = {
 };
 
 const LoginPage = () => {
-  const data = useAppSelector((state) => state.user);
-  const { isLoading } = data;
+  const { isLoading } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   const onSubmit = async (
     values: Credential
     // actions: FormikHelpers<Credential>
   ) => {
-    console.log(config.serverBaseURL);
     await dispatch(loginUser(values));
   };
   const formik = useFormik({
@@ -60,6 +57,7 @@ const LoginPage = () => {
             name="email"
             size="small"
             placeholder="Enter your full name"
+            disabled={isLoading}
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -71,6 +69,7 @@ const LoginPage = () => {
             name="password"
             size="small"
             placeholder="Enter your full name"
+            disabled={isLoading}
             value={formik.values.password}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}

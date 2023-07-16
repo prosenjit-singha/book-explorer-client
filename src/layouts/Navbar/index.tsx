@@ -7,8 +7,10 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import Logo from "../../components/Logo";
 import NavLinks from "./NavLinks";
 import UserMenu from "./UserMenu";
+import { useAppSelector } from "../../redux/hooks";
 
 const Navbar = () => {
+  const { user } = useAppSelector((state) => state.user);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -29,7 +31,7 @@ const Navbar = () => {
 
           <NavLinks />
 
-          <Box>
+          <Box sx={{ display: user ? "block" : "none" }}>
             <IconButton size="large" aria-label="wishlist" color="inherit">
               <Badge badgeContent={4} color="error">
                 <MailIcon />

@@ -51,13 +51,25 @@ export const loginUser = createAsyncThunk(
       const res = await api.post<
         ApiResponse<{ accessToken: string; user: User }>
       >("/auth/login", credential);
-
       localStorage.setItem("accessToken", res.data.data!.accessToken);
-
-      console.log("What");
       return res.data.data!.user;
     } catch (error) {
       return rejectWithValue((error as AxiosError).response?.data);
+    }
+  }
+);
+
+export const refreshToken = createAsyncThunk(
+  "user/refreshToken",
+  async (_undefined, { rejectWithValue }) => {
+    try {
+      const res = await api.get<
+        ApiResponse<{ accessToken: string; user: User }>
+      >("/auth/refresh-token");
+      localStorage.setItem("accessToken", res.data.data!.accessToken);
+      return res.data.data!.user;
+    } catch (err) {
+      return rejectWithValue((err as AxiosError).response!.data);
     }
   }
 );
@@ -122,6 +134,21 @@ const userSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(logoutUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.error = action.error.message!;
+      })
+      .addCase(refreshToken.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.error = null;
+      })
+      .addCase(refreshToken.fulfilled, (state, action: PayloadAction<User>) => {
+        state.user = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(refreshToken.rejected, (state, action) => {
+        state.user = null;
         state.isLoading = false;
         state.isError = true;
         state.error = action.error.message!;
