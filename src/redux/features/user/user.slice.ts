@@ -79,6 +79,7 @@ export const refreshToken = createAsyncThunk(
 export const logoutUser = createAsyncThunk("user/logoutUser", async () => {
   const res = await api.post("/auth/logout");
   localStorage.removeItem("accessToken");
+
   return res.data as unknown;
 });
 
