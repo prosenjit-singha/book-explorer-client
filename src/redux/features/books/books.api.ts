@@ -42,6 +42,14 @@ const booksApi = reduxApi.injectEndpoints({
       }),
       invalidatesTags: ["books"],
     }),
+    updateBook: builder.mutation({
+      query: (data: Partial<Book>) => ({
+        url: `/books/${data._id!}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["books"],
+    }),
     deleteBook: builder.mutation<ApiResponse<Book>, unknown>({
       query: (id: string) => ({
         url: `/books/${id}`,
@@ -57,4 +65,5 @@ export const {
   useGetSingleBookQuery,
   useAddBookMutation,
   useDeleteBookMutation,
+  useUpdateBookMutation,
 } = booksApi;

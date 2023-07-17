@@ -21,11 +21,11 @@ function ConfirmDelete({ open, onClose, onDelete }: ConfirmDeleteProps) {
         Once you delete this you can't reverse this action.
       </DialogContent>
       <DialogActions>
-        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-        <Button onClick={onDelete} variant="outlined">
+        <Button onClick={onClose} variant="outlined">
           Cancel
         </Button>
-        <Button variant="outlined" color="error">
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+        <Button onClick={onDelete} variant="outlined" color="error">
           Delete
         </Button>
       </DialogActions>
