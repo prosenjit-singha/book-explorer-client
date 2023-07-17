@@ -44,15 +44,16 @@ function Book({ data }: BookProps) {
         {/* title */}
         <Typography
           component="h1"
-          className="text-lg font-semibold line-clamp-1"
+          className="text-xl font-semibold line-clamp-1"
         >
           {data.title}
         </Typography>
+        <Typography>{data.genre}</Typography>
         {/* publisher */}
         <Box className="flex gap-4">
           <Box className="flex items-center gap-2">
             <PersonIcon />
-            <Typography pt={0.5}>{data.author.fullName}</Typography>
+            <Typography pt={0.5}>{data.author}</Typography>
           </Box>
           <Box className="flex items-center gap-2">
             <CalenderIcon />

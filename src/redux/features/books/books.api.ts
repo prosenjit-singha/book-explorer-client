@@ -5,7 +5,7 @@ import reduxApi from "../../api";
 type SearchParams = {
   limit?: string;
   genre?: string;
-  publicationYear?: string;
+  publishedOn?: string;
   page?: number;
 };
 
@@ -21,8 +21,8 @@ const productApi = reduxApi.injectEndpoints({
           }
           type Key = keyof SearchParams;
           const value = query[key as Key];
-          if (value !== undefined) {
-            searchParams = searchParams + key + "=" + String(value);
+          if (value !== undefined && !!value) {
+            searchParams = searchParams + key + "=" + String(value) + "&";
           }
         }
 

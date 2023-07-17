@@ -26,7 +26,6 @@ export const genre = [
   "Gothic Fiction",
   "Memoir",
   "Science Non-fiction",
-  "Biography",
   "Western",
   "Humor/Comedy",
 ];

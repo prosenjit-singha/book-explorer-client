@@ -25,12 +25,8 @@ function BookPage() {
       <Typography align="center" component="h2" variant="h5" fontWeight={500}>
         Title: {data.data.title}
       </Typography>
-      <Typography align="center">
-        Author: {data.data.author.fullName}
-      </Typography>
-      <Typography align="center">
-        Genre: {data.data.genre.join(", ")}
-      </Typography>
+      <Typography align="center">Author: {data.data.author}</Typography>
+      <Typography align="center">Genre: {data.data.genre}</Typography>
       <Typography align="center">
         Published On: {dayjs(data.data.publishedOn).format("DD MMM, YYYY")}
       </Typography>
