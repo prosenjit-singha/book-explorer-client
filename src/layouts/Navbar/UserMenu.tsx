@@ -1,6 +1,7 @@
 import { Menu, MenuItem } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { logoutUser } from "../../redux/features/user/user.slice";
+import { Link } from "react-router-dom";
 
 type UserMenuProps = {
   anchorEl: HTMLElement | null;
@@ -43,7 +44,9 @@ const UserMenu = ({ anchorEl, onClose }: UserMenuProps) => {
       </MenuItem>
       <MenuItem onClick={onClose}>My Profile</MenuItem>
       <MenuItem onClick={onClose}>Settings</MenuItem>
-      <MenuItem onClick={onClose}>My Books</MenuItem>
+      <MenuItem component={Link} to="/my-books" onClick={onClose}>
+        My Books
+      </MenuItem>
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>

@@ -1,12 +1,29 @@
-import { Box, Typography } from "@mui/material";
-import { useGetSingleBookQuery } from "../../redux/features/books/books.api";
+import { Box, Typography, Button } from "@mui/material";
+import {
+  useDeleteBookMutation,
+  useGetSingleBookQuery,
+} from "../../redux/features/books/books.api";
 import { useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import Reviews from "./Reviews";
+import ConfirmDelete from "./ConfirmDelete";
+import React from "react";
 
 function BookPage() {
   const { bookId } = useParams();
+  const [open, setOpen] = React.useState(false);
+
+  const [deleteBook, result] = useDeleteBookMutation();
+
   const { data } = useGetSingleBookQuery(bookId!);
+
+  const openDelete = () => setOpen(true);
+  const closeDelete = () => setOpen(false);
+
+  const onDelete = async () => {
+    await deleteBook(bookId);
+    closeDelete();
+  };
 
   if (!data || !data.data) return null;
 
@@ -32,9 +49,24 @@ function BookPage() {
         <Typography align="center">
           Published On: {dayjs(data.data.publishedOn).format("DD MMM, YYYY")}
         </Typography>
+
+        <Box className="flex justify-center gap-4 mt-5">
+          <Button variant="outlined">Edit</Button>
+          <Button onClick={openDelete} variant="outlined" color="error">
+            Delete
+          </Button>
+        </Box>
       </Box>
 
       <Reviews />
+
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+      <ConfirmDelete
+        open={open}
+        onClose={closeDelete}
+        onDelete={onDelete}
+        disable={result.isLoading}
+      />
     </Box>
   );
 }

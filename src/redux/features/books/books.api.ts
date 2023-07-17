@@ -9,7 +9,7 @@ type SearchParams = {
   page?: number;
 };
 
-const productApi = reduxApi.injectEndpoints({
+const booksApi = reduxApi.injectEndpoints({
   endpoints: (builder) => ({
     getBooks: builder.query<ApiResponse<Books>, unknown>({
       query: (query: SearchParams) => {
@@ -32,7 +32,7 @@ const productApi = reduxApi.injectEndpoints({
     }),
     getSingleBook: builder.query<ApiResponse<Book>, unknown>({
       query: (id: string) => `/books/${id}`,
-      providesTags: ["reviews"],
+      providesTags: ["books"],
     }),
     addBook: builder.mutation({
       query: (data: Partial<Book>) => ({
@@ -42,8 +42,19 @@ const productApi = reduxApi.injectEndpoints({
       }),
       invalidatesTags: ["books"],
     }),
+    deleteBook: builder.mutation<ApiResponse<Book>, unknown>({
+      query: (id: string) => ({
+        url: `/books/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["books"],
+    }),
   }),
 });
 
-export const { useGetBooksQuery, useGetSingleBookQuery, useAddBookMutation } =
-  productApi;
+export const {
+  useGetBooksQuery,
+  useGetSingleBookQuery,
+  useAddBookMutation,
+  useDeleteBookMutation,
+} = booksApi;
