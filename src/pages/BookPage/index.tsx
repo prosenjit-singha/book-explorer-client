@@ -3,19 +3,22 @@ import {
   useDeleteBookMutation,
   useGetSingleBookQuery,
 } from "../../redux/features/books/books.api";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import Reviews from "./Reviews";
 import ConfirmDelete from "./ConfirmDelete";
 import React from "react";
 import UpdateBook from "./UpdateBook";
+import { useAppSelector } from "../../redux/hooks";
 
 function BookPage() {
   const { bookId } = useParams();
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [isEditOpen, setEditOpen] = React.useState(false);
 
   const [deleteBook, result] = useDeleteBookMutation();
+  const { user } = useAppSelector((state) => state.user);
 
   const { data } = useGetSingleBookQuery(bookId!);
 
@@ -27,6 +30,7 @@ function BookPage() {
   const onDelete = async () => {
     await deleteBook(bookId);
     closeDelete();
+    navigate(-1);
   };
 
   if (!data || !data.data) return null;
@@ -54,7 +58,11 @@ function BookPage() {
           Published On: {dayjs(data.data.publishedOn).format("DD MMM, YYYY")}
         </Typography>
 
-        <Box className="flex justify-center gap-4 mt-5">
+        <Box
+          className={`${
+            data.data.createdBy === user?._id ? "flex" : "hidden"
+          } justify-center gap-4 mt-5`}
+        >
           <Button onClick={openEdit} variant="outlined">
             Edit
           </Button>

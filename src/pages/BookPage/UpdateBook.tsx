@@ -123,10 +123,18 @@ function UpdateBook({ open, onClose, data }: UpdateBookProps) {
           //   eslint-disable-next-line @typescript-eslint/no-misused-promises
           onClick={onClose}
           variant="outlined"
+          type="button"
         >
           Cancel
         </Button>
-        <Button disabled={result.isLoading} variant="outlined" color="error">
+        <Button
+          disabled={result.isLoading}
+          variant="outlined"
+          color="error"
+          type="submit"
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onClick={formik.submitForm}
+        >
           Update
         </Button>
       </DialogActions>

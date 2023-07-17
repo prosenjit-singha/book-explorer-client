@@ -39,14 +39,20 @@ const booksApi = reduxApi.injectEndpoints({
         url: `/books`,
         method: "POST",
         body: data,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")!}`,
+        },
       }),
       invalidatesTags: ["books"],
     }),
     updateBook: builder.mutation({
       query: (data: Partial<Book>) => ({
         url: `/books/${data._id!}`,
-        method: "POST",
+        method: "PATCH",
         body: data,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")!}`,
+        },
       }),
       invalidatesTags: ["books"],
     }),
@@ -54,6 +60,9 @@ const booksApi = reduxApi.injectEndpoints({
       query: (id: string) => ({
         url: `/books/${id}`,
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")!}`,
+        },
       }),
       invalidatesTags: ["books"],
     }),
