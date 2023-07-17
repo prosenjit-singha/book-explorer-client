@@ -1,6 +1,8 @@
 import { Stack } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../redux/hooks";
 function NavLinks() {
+  const { user } = useAppSelector((state) => state.user);
   return (
     <Stack
       sx={{
@@ -16,8 +18,12 @@ function NavLinks() {
     >
       <Link to="/">Home</Link>
       <Link to="/books">All Books</Link>
-      <Link to="/login">Login</Link>
-      <Link to="/register">Register</Link>
+      <Link to="/login" style={{ display: user ? "none" : "inline" }}>
+        Login
+      </Link>
+      <Link to="/register" style={{ display: user ? "none" : "inline" }}>
+        Register
+      </Link>
     </Stack>
   );
 }
