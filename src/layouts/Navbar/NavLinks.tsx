@@ -15,7 +15,7 @@ function NavLinks() {
       }}
     >
       <Link to="/">Home</Link>
-      <Link to="/all-books">All Books</Link>
+      <Link to="/books">All Books</Link>
       <Link to="/login">Login</Link>
       <Link to="/register">Register</Link>
     </Stack>

@@ -1,13 +1,13 @@
 import { Typography, Box } from "@mui/material";
 import { useGetBooksQuery } from "../../redux/features/books/books.api";
-import Book from "./Book";
+import Books from "../../components/Books";
 function HomePage() {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { data, isLoading } = useGetBooksQuery(undefined);
+  const { data } = useGetBooksQuery(undefined);
 
   return (
     <div className="p-6">
-      <Typography variant="h5" component="h1" className="font-medium">
+      <Typography mb={2} variant="h5" component="h1" className="font-medium">
         Latest Published Book Books
       </Typography>
       <Box
@@ -18,9 +18,7 @@ function HomePage() {
         }}
       >
         {/* eslint-disable-next-line @typescript-eslint/no-unsafe-call */}
-        {data &&
-          data.data &&
-          data.data.map((book) => <Book key={book._id} data={book} />)}
+        {data && data.data && <Books data={data.data} />}
       </Box>
     </div>
   );

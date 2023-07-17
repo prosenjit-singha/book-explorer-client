@@ -1,13 +1,12 @@
 import React from "react";
 import { AppBar, Box, Toolbar, IconButton, Badge } from "@mui/material";
-
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import Logo from "../../components/Logo";
 import NavLinks from "./NavLinks";
 import UserMenu from "./UserMenu";
 import { useAppSelector } from "../../redux/hooks";
+import FavoriteFilledIcon from "@mui/icons-material/FavoriteRounded";
+import ReadingFilledIcon from "@mui/icons-material/AutoStoriesRounded";
 
 const Navbar = () => {
   const { user } = useAppSelector((state) => state.user);
@@ -34,12 +33,12 @@ const Navbar = () => {
           <Box sx={{ display: user ? "block" : "none" }}>
             <IconButton size="large" aria-label="wishlist" color="inherit">
               <Badge badgeContent={4} color="error">
-                <MailIcon />
+                <FavoriteFilledIcon />
               </Badge>
             </IconButton>
             <IconButton size="large" aria-label="reading" color="inherit">
               <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
+                <ReadingFilledIcon />
               </Badge>
             </IconButton>
 

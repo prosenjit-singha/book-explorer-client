@@ -19,6 +19,7 @@ const getGlobalStyles = (theme: Theme) => {
     }
 
     a {
+      text-decoration: none;
       cursor: pointer;
     }
     /* line-clamp-1 {

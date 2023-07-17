@@ -4,17 +4,34 @@ import BookIcon from "@mui/icons-material/MenuBook";
 import PersonIcon from "@mui/icons-material/PersonRounded";
 import CalenderIcon from "@mui/icons-material/EventRounded";
 import FavoriteIcon from "@mui/icons-material/FavoriteBorderRounded";
-import FavoriteFilledIcon from "@mui/icons-material/FavoriteRounded";
-import ReadingFilledIcon from "@mui/icons-material/AutoStoriesRounded";
+// import FavoriteFilledIcon from "@mui/icons-material/FavoriteRounded";
+// import ReadingFilledIcon from "@mui/icons-material/AutoStoriesRounded";
 import ReadingIcon from "@mui/icons-material/AutoStoriesOutlined";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 
 type BookProps = {
   data: Books[number];
 };
 function Book({ data }: BookProps) {
+  const addToWishlist = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+  const addToReadingList = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+  };
   return (
-    <Paper elevation={3} className="flex gap-4 p-2">
+    <Paper
+      component={Link}
+      to={`/books/${data._id}`}
+      elevation={3}
+      className="relative z-0 flex gap-4 p-2 cursor-pointer"
+    >
       {/* image */}
       <Box
         sx={(theme) => ({ border: `1px solid ${theme.palette.divider}` })}
@@ -46,14 +63,14 @@ function Book({ data }: BookProps) {
         </Box>
       </Box>
 
-      <Box className="flex flex-col items-center justify-center ml-auto">
-        <Tooltip title="Add to wishlist">
-          <IconButton size="small">
+      <Box className="relative z-10 flex flex-col items-center justify-center ml-auto">
+        <Tooltip placement="left" title="Add to wishlist">
+          <IconButton onClick={addToWishlist} size="small">
             <FavoriteIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Add to reading">
-          <IconButton size="small">
+        <Tooltip placement="left" title="Add to reading">
+          <IconButton onClick={addToReadingList} size="small">
             <ReadingIcon />
           </IconButton>
         </Tooltip>
