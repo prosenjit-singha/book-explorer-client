@@ -25,6 +25,13 @@ function App() {
         fontFamily: "Poppins",
       },
     },
+    components: {
+      MuiTextField: {
+        defaultProps: {
+          size: "small",
+        },
+      },
+    },
   });
   const dispatch = useAppDispatch();
 

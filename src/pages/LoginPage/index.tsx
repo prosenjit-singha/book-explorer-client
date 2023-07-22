@@ -11,7 +11,7 @@ import { loginUser } from "../../redux/features/user/user.slice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import ArrowIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { loginSchema } from "./form.validation";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 type Credential = {
   email: string;
@@ -51,7 +51,7 @@ const LoginPage = () => {
         elevation={5}
       >
         <Typography variant="h5" component="h1" mb={2}>
-          Register
+          Login
         </Typography>
         <Stack gap={2}>
           <TextField
@@ -90,8 +90,12 @@ const LoginPage = () => {
               )
             }
           >
-            Submit
+            Login
           </Button>
+
+          <Typography>
+            Don't have an account? <Link to="/register">Register here</Link>
+          </Typography>
         </Stack>
       </Paper>
     </div>

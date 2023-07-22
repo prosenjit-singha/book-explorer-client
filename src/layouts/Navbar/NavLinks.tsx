@@ -18,6 +18,9 @@ function NavLinks() {
     >
       <Link to="/">Home</Link>
       <Link to="/books">All Books</Link>
+      <Link to="/add-book" style={{ display: user ? "inline" : "none" }}>
+        Add Book
+      </Link>
       <Link to="/login" style={{ display: user ? "none" : "inline" }}>
         Login
       </Link>
