@@ -7,6 +7,7 @@ import UserMenu from "./UserMenu";
 import { useAppSelector } from "../../redux/hooks";
 import FavoriteFilledIcon from "@mui/icons-material/FavoriteRounded";
 import ReadingFilledIcon from "@mui/icons-material/AutoStoriesRounded";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const { user } = useAppSelector((state) => state.user);
@@ -31,7 +32,13 @@ const Navbar = () => {
           <NavLinks />
 
           <Box sx={{ display: user ? "block" : "none" }}>
-            <IconButton size="large" aria-label="wishlist" color="inherit">
+            <IconButton
+              component={Link}
+              to="/wishlist"
+              size="large"
+              aria-label="wishlist"
+              color="inherit"
+            >
               <Badge badgeContent={4} color="error">
                 <FavoriteFilledIcon />
               </Badge>

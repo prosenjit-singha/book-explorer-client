@@ -4,21 +4,35 @@ import BookIcon from "@mui/icons-material/MenuBook";
 import PersonIcon from "@mui/icons-material/PersonRounded";
 import CalenderIcon from "@mui/icons-material/EventRounded";
 import FavoriteIcon from "@mui/icons-material/FavoriteBorderRounded";
-// import FavoriteFilledIcon from "@mui/icons-material/FavoriteRounded";
+import FavoriteFilledIcon from "@mui/icons-material/FavoriteRounded";
 // import ReadingFilledIcon from "@mui/icons-material/AutoStoriesRounded";
 import ReadingIcon from "@mui/icons-material/AutoStoriesOutlined";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
+import {
+  useAddToWishlistMutation,
+  useRemoveFromWishlistMutation,
+} from "../../redux/features/wishlist/wishlist.api";
 
 type BookProps = {
   data: Books[number];
+  isInWishlist: (bookId: string) => boolean;
 };
-function Book({ data }: BookProps) {
-  const addToWishlist = (
+
+function Book({ data, isInWishlist }: BookProps) {
+  const [add] = useAddToWishlistMutation();
+  const [remove] = useRemoveFromWishlistMutation();
+
+  const toggleWishlist = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.stopPropagation();
     e.preventDefault();
+    if (isInWishlist(data._id)) {
+      await remove(data._id);
+    } else {
+      await add({ bookId: data._id });
+    }
   };
   const addToReadingList = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -66,8 +80,9 @@ function Book({ data }: BookProps) {
 
       <Box className="relative z-10 flex flex-col items-center justify-center ml-auto">
         <Tooltip placement="left" title="Add to wishlist">
-          <IconButton onClick={addToWishlist} size="small">
-            <FavoriteIcon />
+          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+          <IconButton onClick={toggleWishlist} size="small">
+            {isInWishlist(data._id) ? <FavoriteFilledIcon /> : <FavoriteIcon />}
           </IconButton>
         </Tooltip>
         <Tooltip placement="left" title="Add to reading">

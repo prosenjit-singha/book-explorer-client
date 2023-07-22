@@ -7,6 +7,7 @@ import AllBooksPage from "../pages/AllBooksPage";
 import BookPage from "../pages/BookPage";
 import MyBooksPage from "../pages/MyBooks";
 import AddNewBookPage from "../pages/AddBookPage";
+import WishlistPage from "../pages/WishlistPage";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "/add-book",
         element: <AddNewBookPage />,
+      },
+      {
+        path: "/wishlist",
+        element: <WishlistPage />,
       },
     ],
   },

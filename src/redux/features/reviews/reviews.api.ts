@@ -1,5 +1,4 @@
 import ApiResponse from "../../../types/apiResponse";
-import { Book } from "../../../types/book.type";
 import { Review } from "../../../types/review.type";
 import reduxApi from "../../api";
 

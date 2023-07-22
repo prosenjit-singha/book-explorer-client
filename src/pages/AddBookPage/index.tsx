@@ -33,7 +33,7 @@ function AddNewBookPage() {
     },
     onSubmit: async (values, actions) => {
       await addBook(values);
-      navigate("/all-books");
+      navigate("/books");
       actions.resetForm();
     },
     validationSchema: bookSchema,
