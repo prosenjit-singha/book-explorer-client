@@ -4,7 +4,7 @@ import config from "../../config";
 const reduxApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: config.serverBaseURL }),
-  tagTypes: ["reviews", "books"],
+  tagTypes: ["reviews", "books", "wishlist", "readings"],
   endpoints: () => ({}),
 });
 

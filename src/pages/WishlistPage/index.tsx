@@ -8,8 +8,6 @@ function WishlistPage() {
   const books =
     (data && data.data && data.data.map((value) => value.book)) || [];
 
-  console.log(data);
-
   return (
     <div className="p-4">
       <Typography variant="h5" mb={1}>

@@ -79,7 +79,12 @@ function Book({ data, isInWishlist }: BookProps) {
       </Box>
 
       <Box className="relative z-10 flex flex-col items-center justify-center ml-auto">
-        <Tooltip placement="left" title="Add to wishlist">
+        <Tooltip
+          placement="left"
+          title={
+            isInWishlist(data._id) ? "Remove from wishlist" : "Add to wishlist"
+          }
+        >
           {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <IconButton onClick={toggleWishlist} size="small">
             {isInWishlist(data._id) ? <FavoriteFilledIcon /> : <FavoriteIcon />}

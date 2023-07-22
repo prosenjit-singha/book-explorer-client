@@ -4,9 +4,9 @@ import reduxApi from "../../api";
 
 type Wishlist = { book: Book; _id: string; bookId: string; userId: string };
 
-const WishlistApi = reduxApi.injectEndpoints({
+const ReadingBooksAPI = reduxApi.injectEndpoints({
   endpoints: (builder) => ({
-    getWishlist: builder.query<ApiResponse<Wishlist[]>, unknown>({
+    getReadingList: builder.query<ApiResponse<Wishlist[]>, unknown>({
       query: () => ({
         url: `/wishlist/`,
         method: "GET",
@@ -14,9 +14,9 @@ const WishlistApi = reduxApi.injectEndpoints({
           Authorization: `Bearer ${localStorage.getItem("accessToken")!}`,
         },
       }),
-      providesTags: ["wishlist"],
+      providesTags: ["readings"],
     }),
-    addToWishlist: builder.mutation({
+    addToReadingList: builder.mutation({
       query: (context: { bookId: string }) => ({
         url: `/wishlist`,
         method: "POST",
@@ -25,9 +25,9 @@ const WishlistApi = reduxApi.injectEndpoints({
           Authorization: `Bearer ${localStorage.getItem("accessToken")!}`,
         },
       }),
-      invalidatesTags: ["wishlist"],
+      invalidatesTags: ["readings"],
     }),
-    removeFromWishlist: builder.mutation({
+    removeFromReadingList: builder.mutation({
       query: (bookId: string) => ({
         url: `/wishlist/${bookId}`,
         method: "DELETE",
@@ -35,13 +35,25 @@ const WishlistApi = reduxApi.injectEndpoints({
           Authorization: `Bearer ${localStorage.getItem("accessToken")!}`,
         },
       }),
-      invalidatesTags: ["wishlist"],
+      invalidatesTags: ["readings"],
+    }),
+    changeReadingStatus: builder.mutation({
+      query: (context: { bookId: string; status: string }) => ({
+        url: `/wishlist/${context.bookId}`,
+        method: "PATCH",
+        body: { status: context.status },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")!}`,
+        },
+      }),
+      invalidatesTags: ["readings"],
     }),
   }),
 });
 
 export const {
-  useGetWishlistQuery,
-  useAddToWishlistMutation,
-  useRemoveFromWishlistMutation,
-} = WishlistApi;
+  useGetReadingListQuery,
+  useAddToReadingListMutation,
+  useRemoveFromReadingListMutation,
+  useChangeReadingStatusMutation,
+} = ReadingBooksAPI;
