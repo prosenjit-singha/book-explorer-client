@@ -57,7 +57,13 @@ const Navbar = () => {
             </IconButton>
 
             {/* Reading list */}
-            <IconButton size="large" aria-label="reading" color="inherit">
+            <IconButton
+              component={Link}
+              to="/reading"
+              size="large"
+              aria-label="reading"
+              color="inherit"
+            >
               <Badge badgeContent={totalReadingBooks} color="error">
                 <ReadingFilledIcon />
               </Badge>

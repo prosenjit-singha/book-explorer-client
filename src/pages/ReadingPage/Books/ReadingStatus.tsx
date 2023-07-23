@@ -10,14 +10,18 @@ function ReadingStatus({ status, bookId }: ReadingStatusProps) {
   const [changeStatus] = useChangeReadingStatusMutation();
 
   const handleChange = async (
-    _e: React.MouseEvent<HTMLElement>,
+    e: React.MouseEvent<HTMLElement>,
     newStatus: string
   ) => {
-    await changeStatus({ status: newStatus, bookId: bookId });
+    e.stopPropagation();
+    e.preventDefault();
+    if (newStatus !== null)
+      await changeStatus({ status: newStatus, bookId: bookId });
   };
   return (
     <ToggleButtonGroup
       color="primary"
+      orientation="vertical"
       value={status}
       exclusive
       // eslint-disable-next-line @typescript-eslint/no-misused-promises

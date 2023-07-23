@@ -2,13 +2,19 @@ import ApiResponse from "../../../types/apiResponse";
 import { Book } from "../../../types/book.type";
 import reduxApi from "../../api";
 
-type Wishlist = { book: Book; _id: string; bookId: string; userId: string };
+type Wishlist = {
+  book: Book;
+  _id: string;
+  bookId: string;
+  userId: string;
+  status: "reading" | "finished";
+};
 
 const ReadingBooksAPI = reduxApi.injectEndpoints({
   endpoints: (builder) => ({
     getReadingList: builder.query<ApiResponse<Wishlist[]>, unknown>({
       query: () => ({
-        url: `/wishlist/`,
+        url: `/reading/`,
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")!}`,
@@ -18,7 +24,7 @@ const ReadingBooksAPI = reduxApi.injectEndpoints({
     }),
     addToReadingList: builder.mutation({
       query: (context: { bookId: string }) => ({
-        url: `/wishlist`,
+        url: `/reading`,
         method: "POST",
         body: context,
         headers: {
@@ -29,7 +35,7 @@ const ReadingBooksAPI = reduxApi.injectEndpoints({
     }),
     removeFromReadingList: builder.mutation({
       query: (bookId: string) => ({
-        url: `/wishlist/${bookId}`,
+        url: `/reading/${bookId}`,
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")!}`,
@@ -39,7 +45,7 @@ const ReadingBooksAPI = reduxApi.injectEndpoints({
     }),
     changeReadingStatus: builder.mutation({
       query: (context: { bookId: string; status: string }) => ({
-        url: `/wishlist/${context.bookId}`,
+        url: `/reading/${context.bookId}`,
         method: "PATCH",
         body: { status: context.status },
         headers: {

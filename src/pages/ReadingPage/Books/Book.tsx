@@ -4,7 +4,7 @@ import PersonIcon from "@mui/icons-material/PersonRounded";
 import CalenderIcon from "@mui/icons-material/EventRounded";
 import FavoriteIcon from "@mui/icons-material/FavoriteBorderRounded";
 import FavoriteFilledIcon from "@mui/icons-material/FavoriteRounded";
-// import ReadingFilledIcon from "@mui/icons-material/AutoStoriesRounded";
+import ReadingFilledIcon from "@mui/icons-material/AutoStoriesRounded";
 import ReadingIcon from "@mui/icons-material/AutoStoriesOutlined";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
@@ -13,15 +13,23 @@ import {
   useRemoveFromWishlistMutation,
 } from "../../../redux/features/wishlist/wishlist.api";
 import { Books } from "../../../types/book.type";
+import {
+  useAddToReadingListMutation,
+  useRemoveFromReadingListMutation,
+} from "../../../redux/features/reading/reading.api";
+import ReadingStatus from "./ReadingStatus";
 
 type BookProps = {
-  data: Books[number];
+  data: Books[number] & { readingStatus: "reading" | "finished" };
   isInWishlist: (bookId: string) => boolean;
+  isInReadingList: (bookId: string) => boolean;
 };
 
-function Book({ data, isInWishlist }: BookProps) {
+function Book({ data, isInWishlist, isInReadingList }: BookProps) {
   const [add] = useAddToWishlistMutation();
   const [remove] = useRemoveFromWishlistMutation();
+  const [addToReadingList] = useAddToReadingListMutation();
+  const [removeFromReadingList] = useRemoveFromReadingListMutation();
 
   const toggleWishlist = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -34,10 +42,17 @@ function Book({ data, isInWishlist }: BookProps) {
       await add({ bookId: data._id });
     }
   };
-  const addToReadingList = (
+
+  const toggleReadingList = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.stopPropagation();
+    e.preventDefault();
+    if (isInReadingList(data._id)) {
+      await removeFromReadingList(data._id);
+    } else {
+      await addToReadingList({ bookId: data._id });
+    }
   };
   return (
     <Paper
@@ -90,12 +105,26 @@ function Book({ data, isInWishlist }: BookProps) {
             {isInWishlist(data._id) ? <FavoriteFilledIcon /> : <FavoriteIcon />}
           </IconButton>
         </Tooltip>
-        <Tooltip placement="left" title="Add to reading">
-          <IconButton onClick={addToReadingList} size="small">
-            <ReadingIcon />
+        <Tooltip
+          placement="left"
+          title={
+            isInReadingList(data._id)
+              ? "Remove from reading list"
+              : "Add to reading list"
+          }
+        >
+          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+          <IconButton onClick={toggleReadingList} size="small">
+            {isInReadingList(data._id) ? (
+              <ReadingFilledIcon />
+            ) : (
+              <ReadingIcon />
+            )}
           </IconButton>
         </Tooltip>
       </Box>
+
+      <ReadingStatus bookId={data._id} status={data.readingStatus} />
     </Paper>
   );
 }
