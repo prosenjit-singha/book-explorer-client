@@ -4,12 +4,12 @@ type ApiResponse<T = unknown> = {
   message: string;
   data: T | null;
   meta?: {
-    totalPages: number;
-    page: number;
-    limit: number;
-    totalResults: number;
-    sortBy: string;
-    sortOrder: "asc" | "desc" | 1 | -1 | "ascending" | "descending";
+    totalPages?: number;
+    page?: number;
+    limit?: number;
+    totalResults?: number;
+    sortBy?: string;
+    sortOrder?: "asc" | "desc" | 1 | -1 | "ascending" | "descending";
   };
 };
 

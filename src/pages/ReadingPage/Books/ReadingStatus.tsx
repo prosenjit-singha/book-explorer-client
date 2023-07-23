@@ -1,5 +1,5 @@
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
-import { useChangeReadingStatusMutation } from "../../redux/features/reading/reading.api";
+import { useChangeReadingStatusMutation } from "../../../redux/features/reading/reading.api";
 
 type ReadingStatusProps = {
   status: "reading" | "finished";
