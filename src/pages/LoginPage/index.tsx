@@ -70,6 +70,7 @@ const LoginPage = () => {
             type="email"
             name="email"
             size="small"
+            label="Email"
             placeholder="Enter your full name"
             disabled={isLoading}
             value={formik.values.email}
@@ -81,6 +82,7 @@ const LoginPage = () => {
           <TextField
             type="password"
             name="password"
+            label="Password"
             size="small"
             placeholder="Enter your full name"
             disabled={isLoading}

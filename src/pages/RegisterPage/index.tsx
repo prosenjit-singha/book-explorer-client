@@ -26,6 +26,7 @@ const RegisterPage = () => {
       } else {
         toast.success("Successfully registered", { id: toastId });
       }
+      console.log(result);
     },
     validationSchema: registerUserSchema,
   });

@@ -3,7 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import User from "../../../types/user.type";
 import api from "../../../helpers/api";
 import ApiResponse from "../../../types/apiResponse";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 
 interface IUserState {
   user: User | null;
@@ -33,14 +33,18 @@ const initialState: IUserState = {
 
 export const registerUser = createAsyncThunk(
   "user/registerUser",
-  async (payload: IRegisterPayload) => {
-    const res = await api.post<
-      ApiResponse<{ accessToken: string; user: User }>
-    >("/auth/register", payload);
+  async (payload: IRegisterPayload, { rejectWithValue }) => {
+    try {
+      const res = await api.post<
+        ApiResponse<{ accessToken: string; user: User }>
+      >("/auth/register", payload);
 
-    localStorage.setItem("accessToken", res.data.data!.accessToken);
+      localStorage.setItem("accessToken", res.data.data!.accessToken);
 
-    return res.data.data!.user;
+      return res.data.data!.user;
+    } catch (error) {
+      return rejectWithValue((error as AxiosError).response?.data);
+    }
   }
 );
 
@@ -106,11 +110,14 @@ const userSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(registerUser.rejected, (state, action) => {
-        const payload = action.payload as AxiosResponse<ApiResponse>;
         state.user = null;
         state.isLoading = false;
         state.isError = true;
-        state.error = payload.data.error;
+
+        const payload = action.payload as ApiResponse;
+        if (payload) {
+          state.error = payload.error;
+        } else state.error = action.error.message!;
       })
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
@@ -126,6 +133,10 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.error = action.error.message!;
+        const payload = action.payload as ApiResponse;
+        if (payload) {
+          state.error = payload.error;
+        } else state.error = action.error.message!;
       })
       .addCase(logoutUser.pending, (state) => {
         state.isLoading = true;
@@ -140,6 +151,11 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.error = action.error.message!;
+
+        const payload = action.payload as ApiResponse;
+        if (payload) {
+          state.error = payload.error;
+        } else state.error = action.error.message!;
       })
       .addCase(refreshToken.pending, (state) => {
         state.isLoading = true;
@@ -155,6 +171,11 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.error = action.error.message!;
+
+        const payload = action.payload as ApiResponse;
+        if (payload) {
+          state.error = payload.error;
+        } else state.error = action.error.message!;
       });
   },
 });
