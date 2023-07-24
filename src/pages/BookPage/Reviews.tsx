@@ -41,7 +41,11 @@ function Reviews() {
   return (
     <Stack className="flex flex-col gap-4 p-6">
       <Typography className="text-2xl">Reviews</Typography>
-      <Alert severity="warning" variant="outlined">
+      <Alert
+        sx={{ display: user ? "none" : "flex" }}
+        severity="warning"
+        variant="outlined"
+      >
         Login to add review
       </Alert>
       <Box sx={{ display: user ? "flex" : "none" }} className="gap-6">

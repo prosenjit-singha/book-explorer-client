@@ -17,17 +17,26 @@ const RegisterPage = () => {
       confirmPassword: "",
     },
     onSubmit: async (values) => {
-      await toast.promise(dispatch(registerUser(values)), {
-        loading: "Submitting form...",
-        success: "Successfully registered",
-        error: "Something went wrong",
-      });
+      const toastId = toast.loading("Submitting form...");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const result: any = await dispatch(registerUser(values));
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (result.error) {
+        toast.error("Something went wrong", { id: toastId });
+      } else {
+        toast.success("Successfully registered", { id: toastId });
+      }
     },
     validationSchema: registerUserSchema,
   });
+
   return (
     <div className="flex items-center justify-center">
-      <Paper className="min-w-[400px] p-4 my-4 flex-col">
+      <Paper
+        component="form"
+        onSubmit={formik.handleSubmit}
+        className="min-w-[400px] p-4 my-4 flex-col"
+      >
         <Typography variant="h5" component="h1" mb={2}>
           Register
         </Typography>
@@ -104,7 +113,9 @@ const RegisterPage = () => {
             disabled={formik.isSubmitting}
           />
 
-          <Button variant="contained">Register</Button>
+          <Button type="submit" variant="contained">
+            Register
+          </Button>
 
           <Typography>
             Already have an account? <Link to="/login">Login here</Link>

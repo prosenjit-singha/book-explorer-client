@@ -11,7 +11,7 @@ import { loginUser } from "../../redux/features/user/user.slice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import ArrowIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { loginSchema } from "./form.validation";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
 type Credential = {
@@ -25,6 +25,9 @@ const initialValues: Credential = {
 };
 
 const LoginPage = () => {
+  const location = useLocation();
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+  const from: string = location.state?.from?.pathname || "/";
   const { isLoading, user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
@@ -32,11 +35,15 @@ const LoginPage = () => {
     values: Credential
     // actions: FormikHelpers<Credential>
   ) => {
-    await toast.promise(dispatch(loginUser(values)), {
-      loading: "Logging you in...",
-      success: "Logged in successfully!",
-      error: "Invalid credentials!",
-    });
+    const toastId = toast.loading("Logging you in...");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result: any = await dispatch(loginUser(values));
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (result.error) {
+      toast.error("Invalid credentials!", { id: toastId });
+    } else {
+      toast.success("Logged in successfully!", { id: toastId });
+    }
   };
   const formik = useFormik({
     initialValues,
@@ -45,7 +52,7 @@ const LoginPage = () => {
   });
 
   // console.log(data);
-  if (user) return <Navigate to={"/"} replace />;
+  if (user) return <Navigate to={from} replace />;
 
   return (
     <div className="flex justify-center h-full my-auto">
