@@ -18,6 +18,7 @@ import {
   useRemoveFromReadingListMutation,
 } from "../../../redux/features/reading/reading.api";
 import ReadingStatus from "./ReadingStatus";
+import { toast } from "react-hot-toast";
 
 type BookProps = {
   data: Books[number] & { readingStatus: "reading" | "finished" };
@@ -36,10 +37,19 @@ function Book({ data, isInWishlist, isInReadingList }: BookProps) {
   ) => {
     e.stopPropagation();
     e.preventDefault();
+
     if (isInWishlist(data._id)) {
-      await remove(data._id);
+      await toast.promise(remove(data._id), {
+        loading: "Removing from wishlist",
+        success: "Book removed from wishlist",
+        error: "Something went wrong",
+      });
     } else {
-      await add({ bookId: data._id });
+      await toast.promise(add({ bookId: data._id }), {
+        loading: "Adding to wishlist",
+        success: "Book added to wishlist",
+        error: "Something went wrong",
+      });
     }
   };
 
@@ -48,10 +58,19 @@ function Book({ data, isInWishlist, isInReadingList }: BookProps) {
   ) => {
     e.stopPropagation();
     e.preventDefault();
+
     if (isInReadingList(data._id)) {
-      await removeFromReadingList(data._id);
+      await toast.promise(removeFromReadingList(data._id), {
+        loading: "Removing from reading list",
+        success: "Book removed from reading list",
+        error: "Something went wrong",
+      });
     } else {
-      await addToReadingList({ bookId: data._id });
+      await toast.promise(addToReadingList({ bookId: data._id }), {
+        loading: "Adding to reading list",
+        success: "Book added to reading list",
+        error: "Something went wrong",
+      });
     }
   };
   return (

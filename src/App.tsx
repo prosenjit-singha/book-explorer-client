@@ -10,6 +10,7 @@ import getGlobalStyles from "./utils/getGlobalStyles";
 import React from "react";
 import { useAppDispatch } from "./redux/hooks";
 import { refreshToken } from "./redux/features/user/user.slice";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const theme = createTheme({
@@ -47,6 +48,15 @@ function App() {
           <GlobalStyles styles={getGlobalStyles(theme)} />
           <CssBaseline enableColorScheme />
           <MainLayout />
+          <Toaster
+            toastOptions={{
+              style: {
+                borderRadius: "10px",
+                background: "#333",
+                color: "#fff",
+              },
+            }}
+          />
         </>
       </ThemeProvider>
     </StyledEngineProvider>

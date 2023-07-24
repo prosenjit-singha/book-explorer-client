@@ -17,6 +17,8 @@ import {
   useAddToReadingListMutation,
   useRemoveFromReadingListMutation,
 } from "../../redux/features/reading/reading.api";
+import { useAppSelector } from "../../redux/hooks";
+import { toast } from "react-hot-toast";
 
 type BookProps = {
   data: Books[number];
@@ -25,6 +27,7 @@ type BookProps = {
 };
 
 function Book({ data, isInWishlist, isInReadingList }: BookProps) {
+  const { user } = useAppSelector((state) => state.user);
   const [add] = useAddToWishlistMutation();
   const [remove] = useRemoveFromWishlistMutation();
 
@@ -37,10 +40,23 @@ function Book({ data, isInWishlist, isInReadingList }: BookProps) {
     e.stopPropagation();
     e.preventDefault();
 
+    if (!user) {
+      toast.error("You are not logged in!");
+      return;
+    }
+
     if (isInWishlist(data._id)) {
-      await remove(data._id);
+      await toast.promise(remove(data._id), {
+        loading: "Removing from wishlist",
+        success: "Book removed from wishlist",
+        error: "Something went wrong",
+      });
     } else {
-      await add({ bookId: data._id });
+      await toast.promise(add({ bookId: data._id }), {
+        loading: "Adding to wishlist",
+        success: "Book added to wishlist",
+        error: "Something went wrong",
+      });
     }
   };
 
@@ -49,10 +65,24 @@ function Book({ data, isInWishlist, isInReadingList }: BookProps) {
   ) => {
     e.stopPropagation();
     e.preventDefault();
+
+    if (!user) {
+      toast.error("You are not logged in!");
+      return;
+    }
+
     if (isInReadingList(data._id)) {
-      await removeFromReadingList(data._id);
+      await toast.promise(removeFromReadingList(data._id), {
+        loading: "Removing from reading list",
+        success: "Book removed from reading list",
+        error: "Something went wrong",
+      });
     } else {
-      await addToReadingList({ bookId: data._id });
+      await toast.promise(addToReadingList({ bookId: data._id }), {
+        loading: "Adding to reading list",
+        success: "Book added to reading list",
+        error: "Something went wrong",
+      });
     }
   };
 
@@ -104,7 +134,11 @@ function Book({ data, isInWishlist, isInReadingList }: BookProps) {
         >
           {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <IconButton onClick={toggleWishlist} size="small">
-            {isInWishlist(data._id) ? <FavoriteFilledIcon /> : <FavoriteIcon />}
+            {isInWishlist(data._id) ? (
+              <FavoriteFilledIcon sx={{ color: "error.main" }} />
+            ) : (
+              <FavoriteIcon />
+            )}
           </IconButton>
         </Tooltip>
         <Tooltip
@@ -118,7 +152,7 @@ function Book({ data, isInWishlist, isInReadingList }: BookProps) {
           {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <IconButton onClick={toggleReadingList} size="small">
             {isInReadingList(data._id) ? (
-              <ReadingFilledIcon />
+              <ReadingFilledIcon sx={{ color: "warning.main" }} />
             ) : (
               <ReadingIcon />
             )}

@@ -9,6 +9,7 @@ import {
   CircularProgress,
   Paper,
   Typography,
+  Alert,
 } from "@mui/material";
 import UserIcon from "@mui/icons-material/AccountCircle";
 import SendIcon from "@mui/icons-material/Send";
@@ -18,8 +19,10 @@ import {
   usePostBookReviewMutation,
 } from "../../redux/features/reviews/reviews.api";
 import React from "react";
+import { useAppSelector } from "../../redux/hooks";
 
 function Reviews() {
+  const { user } = useAppSelector((state) => state.user);
   const { bookId } = useParams();
   const { data } = useGetBookReviewsQuery(bookId);
   const [postReview, { isLoading }] = usePostBookReviewMutation();
@@ -38,7 +41,10 @@ function Reviews() {
   return (
     <Stack className="flex flex-col gap-4 p-6">
       <Typography className="text-2xl">Reviews</Typography>
-      <Box className="flex gap-6">
+      <Alert severity="warning" variant="outlined">
+        Login to add review
+      </Alert>
+      <Box sx={{ display: user ? "flex" : "none" }} className="gap-6">
         <Avatar>
           <UserIcon />
         </Avatar>
