@@ -1,5 +1,6 @@
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { useChangeReadingStatusMutation } from "../../../redux/features/reading/reading.api";
+import { toast } from "react-hot-toast";
 
 type ReadingStatusProps = {
   status: "reading" | "finished";
@@ -15,8 +16,20 @@ function ReadingStatus({ status, bookId }: ReadingStatusProps) {
   ) => {
     e.stopPropagation();
     e.preventDefault();
-    if (newStatus !== null)
-      await changeStatus({ status: newStatus, bookId: bookId });
+    if (newStatus !== null) {
+      const toastId = toast.loading("Changing reading status");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const result: any = await changeStatus({
+        status: newStatus,
+        bookId: bookId,
+      });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (result.error) {
+        toast.error("Something went wrong!", { id: toastId });
+      } else {
+        toast.success("Reading status changed!", { id: toastId });
+      }
+    }
   };
   return (
     <ToggleButtonGroup
