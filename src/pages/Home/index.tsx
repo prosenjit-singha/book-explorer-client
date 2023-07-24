@@ -1,4 +1,4 @@
-import { Typography, Box } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useGetBooksQuery } from "../../redux/features/books/books.api";
 import Books from "../../components/Books";
 function HomePage() {
