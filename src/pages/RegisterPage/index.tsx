@@ -1,12 +1,13 @@
 import { Paper, Typography, TextField, Stack, Button } from "@mui/material";
 import { useFormik } from "formik";
 import { registerUserSchema } from "./form.validation";
-import { Link } from "react-router-dom";
-import { useAppDispatch } from "../../redux/hooks";
+import { Link, Navigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { toast } from "react-hot-toast";
 import { registerUser } from "../../redux/features/user/user.slice";
 
 const RegisterPage = () => {
+  const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const formik = useFormik({
     initialValues: {
@@ -30,6 +31,8 @@ const RegisterPage = () => {
     },
     validationSchema: registerUserSchema,
   });
+
+  if (user) return <Navigate to={"/"} replace />;
 
   return (
     <div className="flex items-center justify-center">
@@ -71,7 +74,7 @@ const RegisterPage = () => {
           <TextField
             label="Phone Number"
             name="phoneNumber"
-            placeholder="Enter phoneNumber"
+            placeholder="Enter Phone Number"
             autoComplete="off"
             size="small"
             value={formik.values.phoneNumber}
@@ -99,7 +102,7 @@ const RegisterPage = () => {
             label="Confirm Password"
             type="password"
             name="confirmPassword"
-            placeholder="Enter your full name"
+            placeholder="Confirm Password"
             size="small"
             autoComplete="off"
             value={formik.values.confirmPassword}
@@ -114,7 +117,11 @@ const RegisterPage = () => {
             disabled={formik.isSubmitting}
           />
 
-          <Button type="submit" variant="contained">
+          <Button
+            disabled={formik.isSubmitting}
+            type="submit"
+            variant="contained"
+          >
             Register
           </Button>
 

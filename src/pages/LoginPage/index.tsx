@@ -71,7 +71,7 @@ const LoginPage = () => {
             name="email"
             size="small"
             label="Email"
-            placeholder="Enter your full name"
+            placeholder="Enter email address"
             disabled={isLoading}
             value={formik.values.email}
             onChange={formik.handleChange}
@@ -84,7 +84,7 @@ const LoginPage = () => {
             name="password"
             label="Password"
             size="small"
-            placeholder="Enter your full name"
+            placeholder="Enter your password"
             disabled={isLoading}
             value={formik.values.password}
             onChange={formik.handleChange}
