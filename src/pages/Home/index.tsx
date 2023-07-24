@@ -3,7 +3,7 @@ import { useGetBooksQuery } from "../../redux/features/books/books.api";
 import Books from "../../components/Books";
 function HomePage() {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { data } = useGetBooksQuery({ limit: 2 });
+  const { data } = useGetBooksQuery({ limit: 10 });
 
   return (
     <div className="p-6">
