@@ -2,8 +2,12 @@ import { Paper, Typography, TextField, Stack, Button } from "@mui/material";
 import { useFormik } from "formik";
 import { registerUserSchema } from "./form.validation";
 import { Link } from "react-router-dom";
+import { useAppDispatch } from "../../redux/hooks";
+import { toast } from "react-hot-toast";
+import { registerUser } from "../../redux/features/user/user.slice";
 
 const RegisterPage = () => {
+  const dispatch = useAppDispatch();
   const formik = useFormik({
     initialValues: {
       fullName: "",
@@ -12,8 +16,12 @@ const RegisterPage = () => {
       password: "",
       confirmPassword: "",
     },
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      await toast.promise(dispatch(registerUser(values)), {
+        loading: "Submitting form...",
+        success: "Successfully registered",
+        error: "Something went wrong",
+      });
     },
     validationSchema: registerUserSchema,
   });

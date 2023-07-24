@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import ArrowIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { loginSchema } from "./form.validation";
 import { Link, Navigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 type Credential = {
   email: string;
@@ -31,7 +32,11 @@ const LoginPage = () => {
     values: Credential
     // actions: FormikHelpers<Credential>
   ) => {
-    await dispatch(loginUser(values));
+    await toast.promise(dispatch(loginUser(values)), {
+      loading: "Logging you in...",
+      success: "Logged in successfully!",
+      error: "Invalid credentials!",
+    });
   };
   const formik = useFormik({
     initialValues,
